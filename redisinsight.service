@@ -1,0 +1,13 @@
+[Unit]
+Description=Redisinsight Start
+After=docker.service
+
+[Service]
+ExecStart=/usr/local/bin/redisinsight.sh
+Restart=no
+RestartSec=60s
+User=ec2-user
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
