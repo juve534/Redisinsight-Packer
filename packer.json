@@ -11,27 +11,18 @@
   ],
     "provisioners": [
       {
-        "type": "file",
-        "destination": "/tmp/",
-        "source": "./redisinsight.service"
-      },
-      {
-        "type": "file",
-        "destination": "/tmp/",
-        "source": "./redisinsight.sh"
-      },
-      {
-        "type":  "shell",
+        "type": "shell",
         "inline": [
-          "sudo yum -y update",
-          "sudo yum -y install docker",
-          "sudo systemctl start docker && sudo systemctl enable docker" ,
-          "sudo usermod -a -G docker ec2-user",
-          "sudo docker pull redislabs/redisinsight:latest",
-          "sudo mv /tmp/redisinsight.sh /usr/local/bin/",
-          "sudo mv /tmp/redisinsight.service /usr/lib/systemd/system/",
-          "sudo systemctl enable redisinsight"
+            "sudo yum clean all",
+            "sudo yum -y update",
+            "sudo amazon-linux-extras install epel",
+            "sudo yum -y install ansible"
         ]
+      },
+      {
+        "type": "ansible-local",
+        "playbook_file": "./playbooks/main.yaml",
+        "playbook_dir": "./playbooks"
       }
     ]
 }
