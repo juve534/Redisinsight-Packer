@@ -1,0 +1,38 @@
+- name: Install docker
+  yum:
+    name: docker
+    state: latest
+
+- name: enabled docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: append docker user
+  user:
+    name: ec2-user
+    groups: docker
+    append: yes
+
+- name: Copy redisinsight.sh
+  copy:
+    src: "../files/redisinsight.sh"
+    dest: /usr/local/bin/redisinsight.sh
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy redisinsight.service
+  copy:
+    src: "../files/redisinsight.service"
+    dest: /usr/lib/systemd/system/redisinsight.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enabled redisinsight
+  systemd:
+    name: redisinsight
+    state: started
+    enabled: yes
