@@ -1,0 +1,17 @@
+- name: Install nginx
+  yum:
+    name: nginx
+    state: latest
+
+- name: Copy nginx.conf
+  copy:
+    src: "../files/nginx.conf"
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+
+- name: enabled nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
